@@ -30,62 +30,58 @@ client.close();
 app.post('/publishResult', upload, async (req, res) => {
     let result;
     const schema = {
-        'Register_Number': {
-            prop: 'Register_Number',
+        'Register_No': {
+            prop: 'Register_No',
             type: String
         },
         'Cluster': {
             prop: 'Cluster',
             type: String
         },
-        'NAMES': {
-            prop: 'NAMES',
+        'Name': {
+            prop: 'Name',
             type: String
         },
-        'SCHOOL_NAME': {
-            prop: 'SCHOOL_NAME',
+        'School': {
+            prop: 'School',
             type: String
         },
-        'ATTENDANCE _FROM_21APR_TO_5TH_APR': {
-            prop: 'ATTENDANCE _FROM_21APR_TO_5TH_APR',
+        'Demonstrating_understanding_of_the_Hauna_vision_and_mission': {
+            prop: 'Demonstrating_understanding_of_the_Hauna_vision_and_mission',
             type: String
         },
-        'DEMONSTRATING_UNDERSTANDING_OF_THE_HAUNA_VISION_AND_MISSION_5_SCORE': {
-            prop: 'DEMONSTRATING_UNDERSTANDING_OF_THE_HAUNA_VISION_AND_MISSION_5_SCORE',
+        'Demonstrating_knowledge_of_child_and_child_development': {
+            prop: 'Demonstrating_knowledge_of_child_and_child_development',
             type: String
         },
-        'DEMONSTRATING_KNOWLEDGE_OF_CHILD_AND_CHILD_DEVELOPMENT_10_Score': {
-            prop: 'THIRD_LANG_URDU',
+        'Demonstrating_knowledge_of_child_developmental_domains': {
+            prop: 'Demonstrating_knowledge_of_child_developmental_domains',
             type: String
         },
-        'DEMONSTRATING_KNOWLEDGE_OF_CHILD_DEVELOPMENTAL_DOMAINS_25_Score': {
-            prop: 'DEMONSTRATING_KNOWLEDGE_OF_CHILD_DEVELOPMENTAL_DOMAINS_25_Score',
+        'Demonstrating_knowledge_of_pedagogical_practices_at_Hauna': {
+            prop: 'Demonstrating_knowledge_of_pedagogical_practices_at_Hauna',
             type: String
         },
-        'DEMONSTRATING_KNOWLEDGE_OF_PEDAGOGICAL_PRACTICES_HAUNA_15_Score': {
-            prop: 'DEMONSTRATING_KNOWLEDGE_OF_PEDAGOGICAL_PRACTICES_HAUNA_15_Score',
+        'Demonstrating_knowledge_of_student_assessments': {
+            prop: 'Demonstrating_knowledge_of_student_assessments',
             type: String
         },
-        'DEMONSTRATING_KNOWLEDGE_OF_STUDENT_ASSESSMENTS_10_Score': {
-            prop: 'DEMONSTRATING_KNOWLEDGE_OF_STUDENT_ASSESSMENTS_10_Score',
+        'Group_Presentation': {
+            prop: 'Group_Presentation',
             type: String
         },
-        'ATTENDANCE_Percentage': {
-            prop: 'ATTENDANCE_Percentage',
+        'Attendance': {
+            prop: 'Attendance',
             type: String
         },
-        'Total_Presentation_Marks_20': {
-            prop: 'Total_Presentation_Marks_20',
-            type: String
-        },
-        'Total_5_modules_score_Attendance_marks_Presentation_95_Marks': {
-            prop: 'Total_5_modules_score_Attendance_marks_Presentation_95_Marks',
+        'Total': {
+            prop: 'Total',
             type: String
         },
         'Total_Percentage': {
             prop: 'Total_Percentage',
             type: String
-        }
+        },
     };
     xlsxFile('./result.xlsx', { schema }).then(async (rows) => {
         db.collection('haunaresult').drop()
@@ -118,7 +114,7 @@ app.delete('/result', async (req, res) => {
 });
 
 app.get('/result', async (req, res) => {
-    const result = await db.collection('haunaresult').find({ 'Register_Number': req.query.reg_no }).toArray();
+    const result = await db.collection('haunaresult').find({ 'Register_No': req.query.reg_no }).toArray();
     console.log(result)
 
     try {
