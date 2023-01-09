@@ -66,6 +66,14 @@ app.post('/publishResult', upload, async (req, res) => {
             prop: 'Demonstrating_knowledge_of_student_assessments',
             type: String
         },
+        'Demonstrating_Understanding_of_Principles_of_Hauna_Pedagogy': {
+            prop: 'Demonstrating_Understanding_of_Principles_of_Hauna_Pedagogy',
+            type: String
+        },
+        'Pedagogy_Demonstration_Class': {
+            prop: 'Pedagogy_Demonstration_Class',
+            type: String
+        },
         'Group_Presentation': {
             prop: 'Group_Presentation',
             type: String
@@ -145,6 +153,11 @@ app.get('/result', async (req, res) => {
         })
     }
 
+});
+
+app.get('/results', async (req, res) => {
+    const results = await db.collection('haunaresult').find({});
+    console.log(results);
 });
 
 // CALL A SERVER AND LISTEN
