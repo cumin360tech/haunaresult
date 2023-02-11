@@ -244,7 +244,7 @@ app.get('/result', async (req, res) => {
 });
 
 app.get('/result2', async (req, res) => {
-    const result = await db.collection('haunaresult2').find({ 'Register_Number': 'N1020' }).toArray();
+    const result = await db.collection('haunaresult2').find({ 'Register_Number': req.query.reg_no }).toArray();
     console.log(result)
 
     try {
