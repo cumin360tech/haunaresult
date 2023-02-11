@@ -6,7 +6,6 @@ const uri = "mongodb+srv://admin:result2022@results2022oct.ygamb21.mongodb.net/t
 import xlsxFile from 'read-excel-file/node';
 import cors from 'cors'
 import upload from './middlewares/fileUpload.js'
-import fs from 'fs'
 
 const client = new MongoClient(uri, {});
 
@@ -92,15 +91,104 @@ app.post('/publishResult', upload, async (req, res) => {
         },
     };
     xlsxFile('./result.xlsx', { schema }).then(async (rows) => {
-        db.collection('haunaresult').drop()
-        result = await db.collection('haunaresult').insertMany([...rows.rows])
+        console.log(rows);
+        try {
+            await db.collection('haunaresult').drop()
+            result = await db.collection('haunaresult').insertMany([...rows.rows])
+            res.send({
+                'status': 200,
+                'message': 'Result addded successfully',
+                'resultWeGot': result
+            })
+        } catch (error) {
+            console.log('Error', error);
+        }
     })
-    res.send({
-        'status': 200,
-        'message': 'Result addded successfully',
-        'resultWeGot': result
-    })
+
 });
+
+
+app.post('/publishResult2', upload, async (req, res) => {
+    let result;
+    const schema = {
+        'Register_Number': {
+            prop: 'Register_Number',
+            type: String
+        },
+        'Cluster': {
+            prop: 'Cluster',
+            type: String
+        },
+        'Name': {
+            prop: 'Name',
+            type: String
+        },
+        'School': {
+            prop: 'School',
+            type: String
+        },
+        'Demonstrating_Understanding_of_Hauna_Vision_and_Mission': {
+            prop: 'Demonstrating_Understanding_of_Hauna_Vision_and_Mission',
+            type: String
+        },
+        'Demonstrating_Knowledge_of_Child_and_Child_Development': {
+            prop: 'Demonstrating_Knowledge_of_Child_and_Child_Development',
+            type: String
+        },
+        'Demonstrating_Knowledge_of_Child_Developmental_Domains': {
+            prop: 'Demonstrating_Knowledge_of_Child_Developmental_Domains',
+            type: String
+        },
+        'Demonstrating_Knowledge_of_Pedagogical_Practices_at_Hauna': {
+            prop: 'Demonstrating_Knowledge_of_Pedagogical_Practices_at_Hauna',
+            type: String
+        },
+        'Demonstrating_Knowledge_of_Student_Assessments': {
+            prop: 'Demonstrating_Knowledge_of_Student_Assessments',
+            type: String
+        },
+        'Demonstrating_understanding_of_principles_of_Hauna_Pedagogy': {
+            prop: 'Demonstrating_understanding_of_principles_of_Hauna_Pedagogy',
+            type: String
+        },
+        'Pedagogy_Demonstration_Class': {
+            prop: 'Pedagogy_Demonstration_Class',
+            type: String
+        },
+        'Group_Presentation': {
+            prop: 'Group_Presentation',
+            type: String
+        },
+        'Attendance': {
+            prop: 'Attendance',
+            type: String
+        },
+        'Total': {
+            prop: 'Total',
+            type: String
+        },
+        'Percentage': {
+            prop: 'Percentage',
+            type: String
+        },
+    };
+    xlsxFile('./result.xlsx', { schema }).then(async (rows) => {
+        console.log(rows);
+        try {
+            await db.collection('haunaresult2').drop()
+            result = await db.collection('haunaresult2').insertMany([...rows.rows])
+            res.send({
+                'status': 200,
+                'message': 'Result addded successfully',
+                'resultWeGot': result
+            })
+        } catch (error) {
+            console.log('Error', error);
+        }
+    })
+
+});
+
 
 app.delete('/result', async (req, res) => {
     const resultCollection = db.collection('haunaresult');
@@ -155,6 +243,40 @@ app.get('/result', async (req, res) => {
 
 });
 
+app.get('/result2', async (req, res) => {
+    const result = await db.collection('haunaresult2').find({ 'Register_Number': 'N1020' }).toArray();
+    console.log(result)
+
+    try {
+        if (result.length == 1) {
+            res.send({
+                'status': 200,
+                'data': result[0]
+            })
+        }
+        if (result.length > 1) {
+            res.send({
+                'status': 500,
+                'data': [],
+                'message': 'Student with duplicated register no exists'
+            })
+        }
+        if (result.length == 0) {
+            res.send({
+                'status': 404,
+                'data': [],
+                'message': 'No result found'
+            })
+        }
+    } catch (e) {
+        res.send({
+            'status': 500,
+            'data': 'failed'
+        })
+    }
+
+});
+
 app.get('/results', async (req, res) => {
     const results = await db.collection('haunaresult').find({});
     console.log(results);
@@ -165,8 +287,3 @@ app.listen(PORT, function (err) {
     if (err) console.error(err)
     console.log("Server is running in port", PORT)
 });
-
-// Dark Green : 0,45,43
-// linear-gradient(90deg, #00968f, #00fff4)
-
-// f8485e
